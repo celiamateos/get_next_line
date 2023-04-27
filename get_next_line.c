@@ -21,20 +21,45 @@ char    *read_line(int fd, char *aux)
         read(fd, buffer, BUFFER_SIZE);
     while (!ft_strchr(buffer, '\n'))
         read(fd, buffer, BUFFER_SIZE);
-    //buffer[ft_strlen(buffer)] = '\0';
+    buffer[ft_strlen(buffer)] = '\0';
     printf("%s/n", buffer);
+    free (buffer);
     
     return (aux);
 }
+
+char    *save_line(int fd, char *aux, char *line)
+{
+    size_t  i;
+
+    i = 0;
+    while (!ft_strchr(aux, '\n'))
+        {
+            aux[i] = line[i];
+            line[i] = '\0';
+            i++;
+        }
+    return (line);
+}
+
 char    *get_next_line(int fd)
 {
     static char *aux;
+    char        *line;
+    size_t      i;
 
+    i = 0;
     if (fd < -1)
         return (NULL, "No existe fd");
     else
+//            while (no haya terminado de leer todo el fd)
         read_line(fd, aux);
-    return (aux);
+    if (aux[i] != 0)    
+    {
+        save_line(fd, aux, line);
+        return (line);
+    }
+    return (0);
 }
 
 int main(void)

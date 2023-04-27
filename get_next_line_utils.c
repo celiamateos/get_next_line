@@ -20,7 +20,7 @@ size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(char *s, int c)
 {
 	int	i;
 
@@ -28,10 +28,10 @@ char	*ft_strchr(const char *s, int c)
 	while (s[i] != '\0')
 	{	
 		if (s[i] == (char)c)
-			return ((char *)&s[i]);
+			return (&s[i]);
 		i++;
 	}
 	if ((char)c == '\0')
-		return ((char *)&s[i]);
+		return (&s[i]);
 	return (NULL);
 }
