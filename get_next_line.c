@@ -13,32 +13,52 @@
 
 char    *read_line(int fd, char *aux)
 {   char    *buffer;
+    size_t  i;
+    size_t  BUFFER_SIZE = 6;
 
+    i = 0;
     buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
     if (!buffer)
         return (NULL);
-    if (fd > 0)
+    else
         read(fd, buffer, BUFFER_SIZE);
-    while (!ft_strchr(buffer, '\n'))
-        read(fd, buffer, BUFFER_SIZE);
-    buffer[ft_strlen(buffer)] = '\0';
-    printf("%s/n", buffer);
-    free (buffer);
+        aux = ft_strjoin_gnl(aux, buffer);
+    if (buffer)
+    {
+        while (!ft_strchr_gnl(buffer, '\n') || !ft_strchr_gnl(buffer, '\0'))
+            read(fd, buffer, BUFFER_SIZE);
+            printf("Contenido del buffer: %s/n", buffer);
+            aux = ft_strjoin_gnl(aux, buffer);
+            printf("Contenido de aux: %s/n", aux);          
+    }
+    else
+    {
+        free (buffer);
+        return (NULL);
+    }
     
+    
+    free (buffer);
     return (aux);
 }
 
-char    *save_line(int fd, char *aux, char *line)
+char    *save_line(char *aux, char *line)
 {
     size_t  i;
 
     i = 0;
-    while (!ft_strchr(aux, '\n'))
-        {
-            aux[i] = line[i];
-            line[i] = '\0';
-            i++;
-        }
+    if (aux[i] == '\0')
+        return (NULL);
+    else
+    {
+        while (aux[i] == !ft_strchr_gnl(aux, '\n') + 1 || !ft_strchr_gnl(aux, '\0'))
+            {
+                aux[i] = line[i];
+                aux[i] = '\0';
+                i++;
+            }
+        line[i] = '\0';
+    }
     return (line);
 }
 
@@ -49,14 +69,14 @@ char    *get_next_line(int fd)
     size_t      i;
 
     i = 0;
-    if (fd < -1)
-        return (NULL, "No existe fd");
+    if (fd < 0)
+        return (NULL);
     else
-//            while (no haya terminado de leer todo el fd)
         read_line(fd, aux);
     if (aux[i] != 0)    
     {
-        save_line(fd, aux, line);
+        printf("Contenido de aux: %s\n", aux);
+        save_line(aux, line);
         return (line);
     }
     return (0);
@@ -70,7 +90,7 @@ int main(void)
     fd = open("myfd.txt", O_RDONLY);
     printf("File descriptor asignado: %d\n", fd);
     gnl = get_next_line(fd);
-    printf("%s/n", gnl);
+    printf("gnl: %s/n", gnl);
     close(fd);
     return (0);
 }
