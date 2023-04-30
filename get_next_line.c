@@ -6,91 +6,118 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:16:40 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/04/26 17:16:59 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/04/30 20:26:01 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
-char    *read_line(int fd, char *aux)
-{   char    *buffer;
-    size_t  i;
-    size_t  BUFFER_SIZE = 6;
+char	*auxupdater(char *aux)
+{
+	int		i;
+	int		j;
+	char	*temp;
 
-    i = 0;
-    buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
-    if (!buffer)
-        return (NULL);
-    else
-        read(fd, buffer, BUFFER_SIZE);
-        aux = ft_strjoin_gnl(aux, buffer);
-    if (buffer)
-    {
-        while (!ft_strchr_gnl(buffer, '\n') || !ft_strchr_gnl(buffer, '\0'))
-            read(fd, buffer, BUFFER_SIZE);
-            printf("Contenido del buffer: %s/n", buffer);
-            aux = ft_strjoin_gnl(aux, buffer);
-            printf("Contenido de aux: %s/n", aux);          
-    }
-    else
-    {
-        free (buffer);
-        return (NULL);
-    }
-    
-    
-    free (buffer);
-    return (aux);
+	i = 0;
+	temp = malloc((ft_strlen_gnl(aux) + 1) * sizeof(char));
+	if (!temp)
+		return (NULL);
+	while (aux[i])
+	{
+		temp[i] = aux[i];
+		i++;
+	}
+	free(aux);
+	j = -1;
+	while (temp[++j] != '\n' && temp[j]);
+	aux = malloc(sizeof(char) * (i - j + 1));
+	if (!aux)
+		return (NULL);
+	i = 0;
+	while(temp[j])
+		aux[i++] = temp[j++];
+	aux[i] = '\0';
+	free(temp);
+	return (aux);
 }
 
-char    *save_line(char *aux, char *line)
+char	*save_line(char *aux)
 {
-    size_t  i;
+	size_t	i;
+	char 	*line;
 
-    i = 0;
-    if (aux[i] == '\0')
-        return (NULL);
-    else
-    {
-        while (aux[i] == !ft_strchr_gnl(aux, '\n') + 1 || !ft_strchr_gnl(aux, '\0'))
-            {
-                aux[i] = line[i];
-                aux[i] = '\0';
-                i++;
-            }
-        line[i] = '\0';
-    }
-    return (line);
+	i = 0;
+	if (aux == NULL)
+		return (NULL);
+	while (aux[i++] != '\n' && aux[i]);
+	line = malloc(i + 1 * sizeof(char));
+	if (!line)
+		return (NULL);	
+	while (aux[i])
+	{	
+		if (aux[i] != '\n')
+			line[i] = aux[i];
+		else
+		{
+			line[i++] = '\n';
+			line[i] = '\0';
+			return (line);
+		}
+		i++;
+	}
+	return (line);
 }
 
-char    *get_next_line(int fd)
+char	*read_line(int fd, char *aux)
 {
-    static char *aux;
-    char        *line;
-    size_t      i;
+	char	*buffer;
+	int	i;
 
-    i = 0;
-    if (fd < 0)
-        return (NULL);
-    else
-        read_line(fd, aux);
-    if (aux[i] != 0)    
-    {
-        printf("Contenido de aux: %s\n", aux);
-        save_line(aux, line);
-        return (line);
-    }
-    return (0);
+	i = 1;
+	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!buffer)
+			return (NULL);
+	while (!ft_strchr_gnl(buffer, '\n') && i > 0)
+	{	
+		i = read(fd, buffer, BUFFER_SIZE);
+		if (i == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[BUFFER_SIZE] = '\0';
+		aux = ft_strjoin_gnl(aux, buffer);
+		if (aux == NULL)
+		{	
+			free (aux);
+			free (buffer);
+			return (NULL);
+		}
+		free (buffer);
+	}
+		return (aux);
 }
 
-int main(void)
+char	*get_next_line(int fd)
 {
-    int fd;
-    char    *gnl;
-    
-    fd = open("myfd.txt", O_RDONLY);
-    printf("File descriptor asignado: %d\n", fd);
-    gnl = get_next_line(fd);
-    printf("gnl: %s/n", gnl);
-    close(fd);
-    return (0);
+	static char	*aux;
+	char		*line;
+	size_t		i;
+
+	i = 0;
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	else
+		aux = read_line(fd, aux);
+	if (aux == NULL)
+	{
+		free(aux);
+		return (NULL);
+	}
+	else
+	{
+		line = save_line(aux);
+		aux = auxupdater(aux);
+		free(aux);
+		return (line);
+	}
 }
