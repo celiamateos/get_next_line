@@ -27,8 +27,8 @@ char	*auxupdater(char *aux)
 		i++;
 	}
 	free(aux);
-	j = -1;
-	while (temp[++j] != '\n' && temp[j]);
+	j = 0;
+	while (temp[j++] != '\n' && temp[j]);
 	aux = malloc(sizeof(char) * (i - j + 1));
 	if (!aux)
 		return (NULL);
@@ -42,24 +42,29 @@ char	*auxupdater(char *aux)
 
 char	*save_line(char *aux)
 {
-	size_t	i;
+	int		i;
 	char 	*line;
 
 	i = 0;
 	if (aux == NULL)
 		return (NULL);
 	while (aux[i++] != '\n' && aux[i]);
-	line = malloc(i + 1 * sizeof(char));
+	printf("i: %i\n", i);
+	line = malloc(i * sizeof(char));
 	if (!line)
-		return (NULL);	
-	while (aux[i])
+		return (NULL);
+	i = 0;
+	while (aux[i] != '\0')
 	{	
+		
 		if (aux[i] != '\n')
 			line[i] = aux[i];
 		else
 		{
 			line[i++] = '\n';
 			line[i] = '\0';
+			printf("Aux: %s\n", aux);
+			printf("Line: %s\n", line);
 			return (line);
 		}
 		i++;
@@ -72,11 +77,11 @@ char	*read_line(int fd, char *aux)
 	char	*buffer;
 	int	i;
 
-	i = 1;
+	i = 0;
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 		if (!buffer)
 			return (NULL);
-	while (!ft_strchr_gnl(buffer, '\n') && i > 0)
+	while (!ft_strchr_gnl(buffer, '\n') && i == 0)
 	{	
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
@@ -92,8 +97,8 @@ char	*read_line(int fd, char *aux)
 			free (buffer);
 			return (NULL);
 		}
-		free (buffer);
 	}
+	free (buffer);
 		return (aux);
 }
 
@@ -101,9 +106,7 @@ char	*get_next_line(int fd)
 {
 	static char	*aux;
 	char		*line;
-	size_t		i;
 
-	i = 0;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	else
@@ -117,7 +120,8 @@ char	*get_next_line(int fd)
 	{
 		line = save_line(aux);
 		aux = auxupdater(aux);
-		free(aux);
+		if (ft_strlen_gnl(aux) < 1 || !aux)
+			free(aux);
 		return (line);
 	}
 }

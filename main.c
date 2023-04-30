@@ -17,7 +17,10 @@ int	main(void)
 	int		fd;
 	char	*gnl;
 
-	fd = open("my_first_fd.txt", O_RDONLY);
+	fd = open("fd.txt", O_CREAT);
+	printf("File descriptor asignado: %d\n", fd);
+	if (fd < 0)
+		return (0);
 	while ((gnl = get_next_line(fd)))
 	{
 		printf("gnl: %s\n", gnl);
