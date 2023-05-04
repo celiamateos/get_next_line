@@ -6,7 +6,7 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:16:40 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/03 19:01:39 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:34:44 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -21,7 +21,7 @@ char	*auxupdater(char *aux)
 	temp = malloc((ft_strlen_gnl(aux) + 1) * sizeof(char));
 	if (!temp)
 		return (NULL);
-	while (aux[i] > 0)
+	while (aux[i] != '\0')
 	{
 		temp[i] = aux[i];
 		i++;
@@ -39,6 +39,7 @@ char	*auxupdater(char *aux)
 		aux[i++] = temp[j++];
 	aux[i] = '\0';
 	free(temp);
+//	printf("auxupdate: %s\n", aux);
 	return (aux);
 }
 
@@ -52,8 +53,7 @@ char	*save_line(char *aux)
 		return (NULL);
 	while (aux[i] != '\n' && aux[i])
 		i++;
-	// esto itera bien?
-	line = malloc(i * sizeof(char));
+	line = malloc(i + 1 * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -61,7 +61,7 @@ char	*save_line(char *aux)
 	{
 		if (aux[i] != '\n')
 			line[i] = aux[i];
-		else
+		if (aux[i] == '\n')
 		{
 			line[i++] = '\n';
 			line[i] = '\0';
@@ -70,8 +70,7 @@ char	*save_line(char *aux)
 		}
 		i++;
 	}
-	//esto de debajo no estoy segura
-	line[i] = '\0';
+	line[++i] = '\0';
 	return (line);
 }
 
@@ -79,6 +78,7 @@ char	*read_line(int fd, char *aux)
 {
 	char	*buffer;
 	int		i;
+	char	*sos;
 
 	i = 1;
 	buffer = NULL;
@@ -88,10 +88,13 @@ char	*read_line(int fd, char *aux)
 		if (!buffer)
 			return (NULL);
 		i = read(fd, buffer, BUFFER_SIZE);
+		sos = malloc(i + 1 * sizeof(char));
+		if (!sos)
+			return (NULL);
+		ft_strlcpy(sos, buffer, i + 1);
 //		printf("buffer: %s\n", buffer);
-		if (i == 0)
-			return (aux);
-		if (i < -1)
+
+		if (i <= 0)
 		{
 			free(buffer);
 			return (aux);
@@ -99,7 +102,8 @@ char	*read_line(int fd, char *aux)
 		else
 		{
 			buffer[BUFFER_SIZE] = '\0';
-			aux = ft_strjoin_gnl(aux, buffer);
+			aux = ft_strjoin_gnl(aux, sos);
+			free(sos);
 			free(buffer);
 		}	
 	}

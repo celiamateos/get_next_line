@@ -6,7 +6,7 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:46:41 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/03 19:28:52 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:27:33 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -72,4 +72,21 @@ char	*ft_strjoin_gnl(char *aux, char *buffer)
 		return (NULL);
 	}
 	return (caja);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	i;
+
+	i = 0;
+	if (dstsize != 0)
+	{
+		while (src[i] != '\0' && i < (dstsize - 1))
+		{
+			dst[i] = src[i];
+			i++;
+		}
+	dst[i] = '\0';
+	}
+	return (ft_strlen_gnl((char *)src));
 }
