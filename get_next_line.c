@@ -6,15 +6,15 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:16:40 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/01 21:06:32 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:01:39 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
 
 char	*auxupdater(char *aux)
 {
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 	char	*temp;
 
 	i = 0;
@@ -44,7 +44,7 @@ char	*auxupdater(char *aux)
 
 char	*save_line(char *aux)
 {
-	int		i;
+	size_t	i;
 	char	*line;
 
 	i = 0;
@@ -52,6 +52,7 @@ char	*save_line(char *aux)
 		return (NULL);
 	while (aux[i] != '\n' && aux[i])
 		i++;
+	// esto itera bien?
 	line = malloc(i * sizeof(char));
 	if (!line)
 		return (NULL);
@@ -69,7 +70,8 @@ char	*save_line(char *aux)
 		}
 		i++;
 	}
-
+	//esto de debajo no estoy segura
+	line[i] = '\0';
 	return (line);
 }
 
@@ -86,9 +88,10 @@ char	*read_line(int fd, char *aux)
 		if (!buffer)
 			return (NULL);
 		i = read(fd, buffer, BUFFER_SIZE);
+//		printf("buffer: %s\n", buffer);
 		if (i == 0)
 			return (aux);
-		if (i == -1)
+		if (i < -1)
 		{
 			free(buffer);
 			return (aux);

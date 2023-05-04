@@ -6,16 +6,14 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:46:41 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/01 21:06:36 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:28:52 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 #include "get_next_line.h"
 
 size_t	ft_strlen_gnl(char *str)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (!str)
@@ -27,7 +25,7 @@ size_t	ft_strlen_gnl(char *str)
 
 char	*ft_strchr_gnl(char *s, int c)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (s == NULL)
@@ -35,7 +33,7 @@ char	*ft_strchr_gnl(char *s, int c)
 	while (s[i] != '\0')
 	{	
 		if (s[i] == (char)c)
-				return (&s[i]);	
+			return (&s[i]);
 		i++;
 	}
 	return (NULL);
@@ -45,8 +43,8 @@ char	*ft_strjoin_gnl(char *aux, char *buffer)
 {
 	int		lencaja;
 	char	*caja;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	lencaja = ft_strlen_gnl(aux) + ft_strlen_gnl(buffer);
 	caja = malloc((lencaja + 1) * sizeof(char));

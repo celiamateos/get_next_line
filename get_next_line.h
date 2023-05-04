@@ -6,10 +6,10 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:17:10 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/04/29 21:49:17 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/03 19:35:58 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-# ifndef GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
 # include <stdlib.h>
@@ -17,6 +17,10 @@
 # include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
+
+# ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+# endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen_gnl(char *str);
