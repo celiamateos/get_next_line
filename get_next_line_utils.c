@@ -6,7 +6,7 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 15:46:41 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/04 15:27:33 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/08 20:28:47 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -22,7 +22,7 @@ size_t	ft_strlen_gnl(char *str)
 		i++;
 	return (i);
 }
-
+/*
 char	*ft_strchr_gnl(char *s, int c)
 {
 	size_t	i;
@@ -38,6 +38,24 @@ char	*ft_strchr_gnl(char *s, int c)
 	}
 	return (NULL);
 }
+*/
+char	*ft_strchr_gnl(char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (NULL);
+	while (s[i] != '\0')
+	{	
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if ((char)c == '\0')
+		return ((char *)&s[i]);
+	return (NULL);
+}
 
 char	*ft_strjoin_gnl(char *aux, char *buffer)
 {
@@ -49,7 +67,7 @@ char	*ft_strjoin_gnl(char *aux, char *buffer)
 	lencaja = ft_strlen_gnl(aux) + ft_strlen_gnl(buffer);
 	caja = malloc((lencaja + 1) * sizeof(char));
 	if (!caja)
-		return (NULL);
+		return (free(buffer), NULL);
 	i = 0;
 	if (aux && aux[0] != '\0')
 	{
@@ -67,10 +85,9 @@ char	*ft_strjoin_gnl(char *aux, char *buffer)
 		caja[i] = '\0';
 	}
 	if (buffer == NULL)
-	{
-		free(caja);
-		return (NULL);
-	}
+		return (free(caja), NULL);
+	free(aux);
+	aux = NULL;
 	return (caja);
 }
 
