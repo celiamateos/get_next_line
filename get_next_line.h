@@ -6,7 +6,7 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:17:10 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/04 15:25:54 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:39:16 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #ifndef GET_NEXT_LINE_H
@@ -19,13 +19,12 @@
 # include <fcntl.h>
 
 # ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
+#  define BUFFER_SIZE 42
 # endif
 
 char	*get_next_line(int fd);
-size_t	ft_strlen_gnl(char *str);
+size_t	ft_strlen(char *str);
 char	*ft_strchr_gnl(char *s, int c);
 char	*ft_strjoin_gnl(char *s1, char *s2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-//size_t	ft_strlcat(char *dst, const char *src, size_t dstsize);
 #endif

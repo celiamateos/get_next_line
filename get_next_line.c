@@ -6,7 +6,7 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:16:40 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/15 15:49:07 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:36:16 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -18,27 +18,26 @@ char	*auxupdater(char *aux)
 	char	*temp;
 
 	i = 0;
-	temp = malloc((ft_strlen_gnl(aux) + 1) * sizeof(char));
+	j = 0;
+	temp = malloc((ft_strlen(aux) + 1) * sizeof(char));
 	if (!temp)
 		return (free(aux), NULL);
 	while (aux[i] != '\0')
-	{
-		temp[i] = aux[i];
-		i++;
-	}
+		temp[i++] = aux[j++];
 	temp[i] = '\0';
 	free(aux);
 	j = 0;
-	while (temp[j++] != '\n' && temp[j]);
+	while (temp[j] != '\n' && temp[j])
+		j++;
+	if (temp[j] == '\n')
+		j++;
 	aux = malloc(sizeof(char) * (i - j + 1));
 	if (!aux)
 		return (free(temp), NULL);
 	i = 0;
 	while (temp[j])
 		aux[i++] = temp[j++];
-	aux[i] = '\0';
-	free(temp);
-	return (aux);
+	return (aux[i] = '\0', free(temp), aux);
 }
 
 char	*save_line(char *aux)
@@ -47,8 +46,6 @@ char	*save_line(char *aux)
 	char	*line;
 
 	i = 0;
-	if (aux == NULL)
-		return (NULL);
 	while (aux[i] != '\n' && aux[i])
 		i++;
 	if (aux[i] == '\n')
@@ -69,8 +66,7 @@ char	*save_line(char *aux)
 		}
 		i++;
 	}
-	line[i] = '\0';
-	return (line);
+	return (line[i] = '\0', line);
 }
 
 char	*read_line(int fd, char *aux)
@@ -84,7 +80,6 @@ char	*read_line(int fd, char *aux)
 		return (free(aux), NULL);
 	while (i > 0 && !ft_strchr_gnl(aux, '\n'))
 	{		
-//		system("leaks a.out");
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
 		{
@@ -100,15 +95,16 @@ char	*read_line(int fd, char *aux)
 	free(buffer);
 	return (aux);
 }
+
 char	*get_next_line(int fd)
 {
-	static char		*aux;
+	static char	*aux;
 	char		*line;
 
 	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
 	{	
 		free(aux);
-		aux = 0;	
+		aux = 0;
 		return (0);
 	}
 	if (!ft_strchr_gnl(aux, '\n'))
