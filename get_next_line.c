@@ -6,7 +6,7 @@
 /*   By: cmateos- <cmateos-@student.42madrid.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 17:16:40 by cmateos-          #+#    #+#             */
-/*   Updated: 2023/05/08 19:51:25 by cmateos-         ###   ########.fr       */
+/*   Updated: 2023/05/15 15:49:07 by cmateos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "get_next_line.h"
@@ -69,7 +69,7 @@ char	*save_line(char *aux)
 		}
 		i++;
 	}
-	line[++i] = '\0';
+	line[i] = '\0';
 	return (line);
 }
 
@@ -77,7 +77,6 @@ char	*read_line(int fd, char *aux)
 {
 	char	*buffer;
 	int		i;
-//	char	*sos;
 
 	i = 1;
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
@@ -85,7 +84,7 @@ char	*read_line(int fd, char *aux)
 		return (free(aux), NULL);
 	while (i > 0 && !ft_strchr_gnl(aux, '\n'))
 	{		
-	//	system("leaks a.out");
+//		system("leaks a.out");
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
 		{
@@ -95,28 +94,23 @@ char	*read_line(int fd, char *aux)
 			buffer = NULL;
 			return (NULL);
 		}
-/*		sos = malloc(i + 1 * sizeof(char));
-		free(buffer);
-		if (!sos)
-			return (free(aux), free(buffer), NULL);*/
 		buffer[i] = '\0';
-//		ft_strlcpy(sos, buffer, i + 1);
-/*		if (i <= 0)
-			return (free(buffer), aux);*/
-//		buffer[BUFFER_SIZE] = '\0';
 		aux = ft_strjoin_gnl(aux, buffer);
-//		free(sos);
 	}
 	free(buffer);
 	return (aux);
 }
 char	*get_next_line(int fd)
 {
-	static char	*aux;
+	static char		*aux;
 	char		*line;
 
-	if (BUFFER_SIZE <= 0 || fd < 0)
-		return (NULL);
+	if (BUFFER_SIZE <= 0 || fd < 0 || read(fd, 0, 0) < 0)
+	{	
+		free(aux);
+		aux = 0;	
+		return (0);
+	}
 	if (!ft_strchr_gnl(aux, '\n'))
 		aux = read_line(fd, aux);
 	if (aux[0] == '\0' || aux == NULL)
@@ -125,11 +119,7 @@ char	*get_next_line(int fd)
 		aux = NULL;
 		return (NULL);
 	}
-	else
-	{
-		line = save_line(aux);
-		aux = auxupdater(aux);
-		return (line);
-	}
-
+	line = save_line(aux);
+	aux = auxupdater(aux);
+	return (line);
 }
