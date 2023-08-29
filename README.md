@@ -1,6 +1,6 @@
 # 📖 get_next_line #
 ** Reading a line on a fd is way too tedious **
-[Contribution guidelines for this project](docs/CONTRIBUTING.md)
+![GitHub repo size](https://img.shields.io/github/repo-size/celiamateos/get_next_line)
 
 
 💡 About the project
