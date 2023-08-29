@@ -1,7 +1,6 @@
 # 📖 get_next_line #
 ** Reading a line on a fd is way too tedious **
-![image](https://github.com/celiamateos/get_next_line/assets/127442472/e6acef71-d115-46b4-ba85-219cb8e80ba1)
-![image](https://github.com/celiamateos/get_next_line/assets/127442472/0330442d-7906-4fc3-a20b-75378a039586)
+[Contribution guidelines for this project](docs/CONTRIBUTING.md)
 
 
 💡 About the project
