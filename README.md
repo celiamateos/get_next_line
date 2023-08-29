@@ -23,7 +23,7 @@ For more detailed information, look at the [subject of this project](https://cdn
 ### **Requirements** ###
 The fuction is written in **C language** and thus needs the **gcc compiler** and some **standard C** libraries to run.
 
---
+---
 ### **Instructions** ###
 **1. Using it in your code**
 To use the function in your code, simply include its header:
