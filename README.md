@@ -1,12 +1,12 @@
 # 📖 get_next_line #
-** Reading a line on a fd is way too tedious **
+**Reading a line on a fd is way too tedious**
 
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/celiamateos/get_next_line)
 ![Lines of code](https://img.shields.io/tokei/lines/github/celiamateos/get_next_line)
 ![GitHub top language](https://img.shields.io/github/languages/top/celiamateos/get_next_line)
 ![GitHub last commit](https://img.shields.io/github/last-commit/celiamateos/get_next_line)
 
-💡 About the project
+## 💡 About the project
 The aim of this project is to make you code a function that returns a line, read from a file descriptor.
 
 You will understand how files are opened, read and closed in an OS,
@@ -16,11 +16,11 @@ on manipulating files for data management and persistence.
 This project consists of coding a function that returns one line at a time from a text file.
 For more detailed information, look at the subject of this project.
 
-🛠️ Usage
+##🛠️ Usage
 Requirements
 The function is written in C language and thus needs the gcc compiler and some standard C libraries to run.
 
-Instructions
+##Instructions
 1. Using it in your code
 
 To use the function in your code, simply include its header:
