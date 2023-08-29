@@ -1,7 +1,7 @@
 # 📖 get_next_line #
 ** Reading a line on a fd is way too tedious **
 
-[code size](https://img.shields.io/github/code-size/celiamateos/get_next_line)
+![repo size](https://img.shields.io/github/repo-size/celiamateos/get_next_line)
 
 
 💡 About the project
